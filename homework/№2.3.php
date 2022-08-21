@@ -1,7 +1,7 @@
 <?php
 
 echo '<table>';
-function multiplicationTable($a,$c)
+function multiplicationTable($a, $c)
 {
     if (is_int($a) == false || is_int($c) == false) {
         echo 'Нужно ввести 2 цифры а не символы';
@@ -25,7 +25,8 @@ function multiplicationTable($a,$c)
             }
             echo '</tr>';
         }
+    }
 }
-}
+echo '</table>';
 
 multiplicationTable("vs",6);
