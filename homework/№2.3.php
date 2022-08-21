@@ -1,6 +1,7 @@
 <?php
 
 echo '<table>';
+
 function multiplicationTable($a, $c)
 {
     if (is_int($a) == false || is_int($c) == false) {
