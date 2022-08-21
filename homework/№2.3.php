@@ -29,4 +29,4 @@ function multiplicationTable($a, $c)
 }
 echo '</table>';
 
-multiplicationTable("vs",6);
+multiplicationTable("vs", 6);
