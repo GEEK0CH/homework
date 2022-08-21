@@ -38,7 +38,6 @@ function calcEverything($args)
     }
     return $result;
 }
-
 echo '<table>';
 
 function multiplicationTable($a, $c)

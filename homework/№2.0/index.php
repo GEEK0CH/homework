@@ -8,7 +8,7 @@ $opel = [
     'doors' => '3',
     'year' => '2016'
 ];
-print_r(massiveRedactor($opel) . "<br><br>");
+print_r(massiveRedactor($opel) . "<br>");
 $str = massiveRedactor($opel, true);
 echo $str;
 
