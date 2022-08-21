@@ -20,12 +20,12 @@ $opel = [
 ];
 
 $cars = [
-    'bmw' => $bmw ,
-    'toyota' => $toyota ,
+    'bmw' => $bmw,
+    'toyota' => $toyota,
     'opel' => $opel
 ];
 
 foreach ($cars as $name => $array) {
-    echo "Car" ." $name<br>";
+    echo "Car {$name}<br>";
     echo implode(' ', $array)."<br>";
 }
