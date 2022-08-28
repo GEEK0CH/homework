@@ -1,72 +1,37 @@
 <?php
-$filename = 'array.txt';
-$data3 = file_get_contents($filename);
-$data = unserialize($data3);
-echo '<pre>';
-var_Dump($data);
+$mysql = @new mysqli('localhost', 'root', '', 'burgers');
 
-
-function searchForId($email, $array)
-{
-    foreach ($array as $key => $val) {
-        if ($val["email"] == $email) {
-            return $key;
-        }
-    }
-    return null;
-}
-
+$name =$_POST['name'];
 $email = $_POST['email'];
-$id = searchForId($email, $data);
-
-var_Dump($id);
-
-
+$street =$_POST['street'];
+$home = $_POST['home'];
+$kvar = $_POST['appt'];
+$floor =$_POST['floor'];
+$zakaz = 1;
 
 echo '<pre>';
-$needle= $_POST["email"];
-
-if($id == NULL){
-    $keys = array_keys($data);
-    $k = end($keys);
-    $k++;
-    $temp =  [$k => [
-        'email' => $_POST['email'],
-        'data' => date('d.m.Y H:i'),
-        'address' => $_POST['street'],
-        'dom'=> $_POST['home'],
-        'kvar'=> $_POST['appt'],
-        'floor'=> $_POST['floor'],
-        'zakaz' => 1 ]];
-    $data4 = array_merge($data, $temp);
-    $data2 = serialize($data4);
-}
-else {
-    $data[$id]['data'] = date('d.m.Y H:i');
-    $n = $data[$id]['zakaz'];
-    $n++;
-    $data[$id]['zakaz'] = $n;
-    $data2 = serialize($data);
-}
-var_dump($k);
-$filename = 'array.txt';
+$sql = mysqli_query($mysql,"SELECT * FROM users WHERE  email LIKE '$email';");
+$d = $sql->num_rows;
 
 
-file_put_contents($filename, $data2);
-
-if ($data[$id]['zakaz'] == NULL){
-    $zakaz = 1;
+if ($d == 0) {
+    $mysql->query("INSERT INTO `users`(`name`,`email`,`street`,`home`,`kvar`,`floor`,`zakaz`) VALUES('$name','$email','$street','$home','$kvar','$floor','$zakaz')");
 } else {
-    $zakaz = $n;
-}
-$dd = unserialize($data2);
-
-for($i=0; $i < count($dd)  ; $i++){
-    $n = $data[$i]['zakaz'];
-    $sum =$sum + $n;
+    $k = $mysql->query("SELECT `zakaz` FROM `burgers`.`users` WHERE `email` = '$email';");
+    $data = $k->fetch_row();
+    $zakaz = $data[0] + 1;
+    $mysql->query("UPDATE `users` SET `zakaz` = '$zakaz' WHERE `users`.`email` = '$email';");
 }
 
-echo 'Спасибо, ваш заказ будет доставлен по адресу: “'  . $_POST['street'] . ' ' .  $_POST['home']
-    . ' ' . $_POST['appt'] . ' Этаж ' . $_POST['floor'] . '”' . '<br>';
-echo 'Номер вашего заказа: #' . "$sum" . '<br>';
+$k = $mysql->query("SELECT `zakaz` FROM `burgers`.`users`;");
+$data = $k->fetch_all();
+
+
+foreach ($data as $value) {
+    $sum += $value[0];
+}
+
+
+echo "Спасибо, ваш заказ будет доставлен по адресу: “{$_POST['street']} {$_POST['home']} {$_POST['appt']} Этаж {$_POST['floor']} <br>";
+echo "Номер вашего заказа: #{$sum} <br>";
 echo "Это ваш $zakaz-й заказ!";
