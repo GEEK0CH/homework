@@ -2,9 +2,9 @@
 
 require('src/functions.php');
 
-add();
+add(array());
 
-$json = json_encode(add());
+$json = json_encode(add(array()));
 file_put_contents('users.json', $json);
 
 $data =  json_decode(file_get_contents('users.json'), true);
