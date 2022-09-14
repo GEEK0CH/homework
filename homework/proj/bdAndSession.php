@@ -2,6 +2,9 @@
 
 const ADMIN_ID = '1';
 
-require_once 'functions.php';
-
 session_start();
+
+function isUserAuthorization(): bool
+{
+    return empty($_SESSION['id']);
+}

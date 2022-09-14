@@ -1,7 +1,7 @@
 <?php
 namespace App\Model;
 
-require_once 'bdAndSession.php';
+use Base\Db;
 
 class Message
 {
@@ -10,7 +10,6 @@ class Message
     private $date;
     private $user_id;
     /** @var User */
-    private $author;
     private $image;
 
     public static function deleteMessage(int $messageId)
@@ -20,9 +19,9 @@ class Message
         return $db->exec($query, __METHOD__);
     }
 
-    public function save($user_id , $date, $text, $image)
+    public function save($user_id, $date, $text, $image)
     {
-        $res = connectBd()->exec(
+        $res = Db::connectBd()->exec(
             "INSERT INTO `message` (
                     `user_id`, 
                    `text`, 

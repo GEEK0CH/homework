@@ -1,12 +1,14 @@
 <?php
-require_once 'bdAndSession.php';
-require_once 'app/Model/User.php';
-require_once 'app/Model/Message.php';
-require_once 'app/Controller/addMessage.php';
 
+require_once '../../bdAndSession.php';
+require_once '../Model/User.php';
+require_once '../Model/Message.php';
+require_once '../Controller/addMessage.php';
+require_once '../../Base/Db.php';
+
+use Base\Db;
 use App\Model\User;
 use App\Model\Message;
-use App\Controller\Controller;
 
 
 echo "Имя пользователя {$_SESSION['name']} your id={$_SESSION['id']}";
@@ -29,7 +31,7 @@ $adm = new User;
 $result = $adm->isAdmin($_SESSION);
 
 $del = new Message();
-$messages = getMessage();
+$messages = Db::getMessage();
 ?>
 
 
@@ -38,18 +40,18 @@ $messages = getMessage();
         <div class="message">
             <?php if($result == true): ?>
                 <div class="admin">
-                    <a href="deleteM.php/?id=<?=($message['id']);?>">delete</a>
+                    <a href="../../deleteM.php/?id=<?=($message['id']);?>">delete</a>
                 </div>
             <?php endif; ?>
             <span class="date"><?=$message['date'];?> </span>
             <?php if($message['date'] !== NULL):?>
-                <span class="author"><?=getName($message['user_id']);?></span>
+                <span class="author"><?=Db::getName($message['user_id']);?></span>
             <?php else: ?>
                 <span class="author">Сообщение от удаленного пользователя</span>
             <?php endif; ?>
             <div class="text"><?=$message['text'];?></div>
             <?php if($message['image'] !== ''):?>
-                <div><img src="/images/<?=$message['image'];?>" style="width: 150px; margin-bottom: 2px;margin-left: 2px;"></div>
+                <div><img src="../../images/<?=$message['image'];?>" style="width: 150px; margin-bottom: 2px;margin-left: 2px;"></div>
             <?php endif;?>
         </div>
     <?php endforeach; ?>
@@ -58,7 +60,7 @@ $messages = getMessage();
 <?php endif; ?>
 
 Добавить сообщение
-<form enctype="multipart/form-data" action="addM.php" method="post">
+<form enctype="multipart/form-data" action="../../addM.php" method="post">
     <textarea style="width: 250px; height: 150px;" type="text" value="" name="text"></textarea><br><br>
     Изображение: <input type="file" name="image"><br>
     <input type="submit" value="Отправить">

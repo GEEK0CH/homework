@@ -1,7 +1,7 @@
 <?php
 namespace App\Model;
 
-require_once 'bdAndSession.php';
+use Base\Db;
 
 class User
 {
@@ -21,9 +21,9 @@ class User
     }
 
 
-    public function save($name , $date, $password, $email)
+    public function save(string $name ,string $date ,string $password ,string $email)
     {
-        $res = connectBd()->exec(
+        $res = Db::connectBd()->exec(
             "INSERT INTO `users` (
                     `name`, 
                    `password`, 
@@ -42,18 +42,19 @@ class User
     }
 
 
-    public function comparePassword($password, $confirmPassword): string
+    public function comparePassword(string $password, string $confirmPassword): string
     {
         if ($password == $confirmPassword) {
             $comparePassword = $password;
         } else {
-            die('Passwords do not match');
+            echo 'Passwords are not the same';
+            die;
         }
 
         return $comparePassword;
     }
 
-    public function lengthPassword($comparePassword)
+    public function lengthPassword(string $comparePassword)
     {
         $check = strlen($comparePassword);
         if ($check <= 4) {
@@ -70,7 +71,7 @@ class User
 
     public function checkLastInsertId()
     {
-        return connectBd()->lastInsertId();
+        return Db::connectBd()->lastInsertId();
     }
 
     /**

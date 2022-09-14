@@ -3,7 +3,7 @@ namespace App\Controller;
 
 use App\Model\Message;
 
-require_once 'bdAndSession.php';
+//require_once '../../bdAndSession.php';
 
 class Controller
 {
